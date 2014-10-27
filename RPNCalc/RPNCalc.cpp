@@ -76,7 +76,8 @@ bool mainLoop()
 		return true;
 	}
 	
-	double result = stod(numbersArray[0]);
+	double result = stod(numbersArray.back());
+	numbersArray.pop_back();
 	// calculate
 	for (int i = 0; i < operatorsArray.size(); i++)
 	{
