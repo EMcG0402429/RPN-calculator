@@ -38,10 +38,8 @@ bool mainLoop()
 
 	// prompt
 	cout << "Enter command (blank to quit): ";
-
 	getline(cin, commandIn);
 
-	//cout << "Command Length: " << commandIn.length() << " characters\n";
 	std::vector<std::string> commandItems;
 	// parse
 	if (!commandIn.length())
@@ -50,8 +48,6 @@ bool mainLoop()
 		return false;
 	}
 	split(commandIn, commandItems);
-
-	//cout << "Command Items array size: " << commandItems.size() << "\n";
 
 	std::vector<std::string> numbersArray;
 	std::vector<char> operatorsArray;
@@ -73,7 +69,7 @@ bool mainLoop()
 	}
 	commandItems.clear();
 
-	// sanity checking
+	// basic sanity check
 	if (operatorsArray.size() >= numbersArray.size())
 	{
 		cout << "That is not how RPN works.\n";
@@ -90,7 +86,7 @@ bool mainLoop()
 	operatorsArray.clear();
 
 	// report
-	cout << result << "\n";
+	cout << "Result: " << result << "\n";
 
 	return true;
 }
