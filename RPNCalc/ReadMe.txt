@@ -8,4 +8,4 @@ Yet another code test practice thing. With thanks to SPT.
 
 RPNCalc.cpp - containing all of the everything.
 
-I'mma call that three or four hours, I think.
+A dissapointing four and a half hours.

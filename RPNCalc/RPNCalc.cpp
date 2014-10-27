@@ -2,7 +2,7 @@
 // A reverse Polish notation calculator.
 // 2014 EMcG
 // In response to a challenge from SPT.
-// Probably three hours or so?
+// Like, four and a half hours. Mostly due to completely cocking up how RPN works.
 
 #include "stdafx.h"
 #include <string>
