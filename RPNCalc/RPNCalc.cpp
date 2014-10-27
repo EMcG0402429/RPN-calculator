@@ -16,7 +16,7 @@ using namespace std;
 
 bool mainLoop();//Do the thing.
 void split(std::string stringIn, std::vector<std::string> &arrayOut);//Split an input string into an array, by whitespace.
-double calculate(int it, double scratch, std::vector<std::string> &numbers, std::vector<char> &operators);
+double calculate(int it, double scratch, std::vector<std::string> &numbers, std::vector<char> &operators);//Carry out the maths
 
 int main(array<System::String ^> ^args)
 {
@@ -72,7 +72,7 @@ bool mainLoop()
 	// basic sanity check
 	if (operatorsArray.size() >= numbersArray.size())
 	{
-		cout << "That is not how RPN works.\n";
+		cout << "That is not how mathematics works.\n";
 		return true;
 	}
 	
@@ -109,23 +109,27 @@ double calculate(int it, double calcSoFar, std::vector<std::string> &numbers, st
 	switch (operators[it])
 	{
 	case '+':
-		output = calcSoFar + stod(numbers[it + 1]);
+		output = calcSoFar + stod(numbers.back());
+		numbers.pop_back();
 		break;
 	case '-':
-		output = calcSoFar - stod(numbers[it + 1]);
+		output = calcSoFar - stod(numbers.back());
+		numbers.pop_back();
 		break;
 	case '*':
-		output = calcSoFar * stod(numbers[it + 1]);
+		output = calcSoFar * stod(numbers.back());
+		numbers.pop_back();
 		break;
 	case '/':
-		output = calcSoFar / stod(numbers[it + 1]);
+		output = calcSoFar / stod(numbers.back());
+		numbers.pop_back();
 		break;
 	case '^':
-		for (int i = 1; i < stoi(numbers[it + 1]); i++)
+		for (int i = 1; i < stoi(numbers.back()); i++)
 		{
 			output = calcSoFar * calcSoFar;
 		}
-		output = calcSoFar * stod(numbers[it + 1]);
+		numbers.pop_back();
 		break;
 	default:
 		cout << "Something has gone terribly wrong.\n";
