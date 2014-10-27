@@ -16,7 +16,7 @@ using namespace std;
 
 bool mainLoop();//Do the thing.
 void split(std::string stringIn, std::vector<std::string> &arrayOut);//Split an input string into an array, by whitespace.
-double calculate(int it, double scratch, std::vector<std::string> &numbers, std::vector<char> &operators);//Carry out the maths
+void calculate(std::vector<double> &numbers, char operatorIn);//Carry out the maths
 
 int main(array<System::String ^> ^args)
 {
@@ -49,17 +49,22 @@ bool mainLoop()
 	}
 	split(commandIn, commandItems);
 
-	std::vector<std::string> numbersArray;
-	std::vector<char> operatorsArray;
+	std::vector<double> numbersArray;
 	for (int i = 0; i < commandItems.size(); i++)
 	{
 		if (isdigit(commandItems[i].front()))
 		{
-			numbersArray.push_back(commandItems[i]);
+			numbersArray.push_back(stod(commandItems[i]));
 		}
-		else if (strchr("+-*/^", commandItems[i].front()))
+		else if (strchr("+-*/", commandItems[i].front()))
 		{
-			operatorsArray.push_back(commandItems[i].front());
+			if (numbersArray.size() < 2)
+			{
+				cout << "Can't do that.\n";
+				return true;
+			}
+			//calculate
+			calculate(numbersArray, commandItems[i].front());
 		}
 		else
 		{
@@ -69,25 +74,8 @@ bool mainLoop()
 	}
 	commandItems.clear();
 
-	// basic sanity check
-	if (operatorsArray.size() >= numbersArray.size())
-	{
-		cout << "That is not how mathematics works.\n";
-		return true;
-	}
-	
-	double result = stod(numbersArray.back());
-	numbersArray.pop_back();
-	// calculate
-	for (int i = 0; i < operatorsArray.size(); i++)
-	{
-		result = calculate(i, result, numbersArray, operatorsArray);
-	}
-	numbersArray.clear();
-	operatorsArray.clear();
-
 	// report
-	cout << "Result: " << result << "\n";
+	cout << "Result: " << numbersArray.back() << "\n";
 
 	return true;
 }
@@ -103,33 +91,27 @@ void split(std::string stringIn, std::vector<std::string> &arrayOut)
 	}
 }
 
-double calculate(int it, double calcSoFar, std::vector<std::string> &numbers, std::vector<char> &operators)
+void calculate(std::vector<double> &numbers, char operatorIn)
 {
-	double output;
+	double output = numbers.back();
+	numbers.pop_back();
 
-	switch (operators[it])
+	switch (operatorIn)
 	{
 	case '+':
-		output = calcSoFar + stod(numbers.back());
+		output = output + numbers.back();
 		numbers.pop_back();
 		break;
 	case '-':
-		output = calcSoFar - stod(numbers.back());
+		output = output - numbers.back();
 		numbers.pop_back();
 		break;
 	case '*':
-		output = calcSoFar * stod(numbers.back());
+		output = output * numbers.back();
 		numbers.pop_back();
 		break;
 	case '/':
-		output = calcSoFar / stod(numbers.back());
-		numbers.pop_back();
-		break;
-	case '^':
-		for (int i = 1; i < stoi(numbers.back()); i++)
-		{
-			output = calcSoFar * calcSoFar;
-		}
+		output = output / numbers.back();
 		numbers.pop_back();
 		break;
 	default:
@@ -137,5 +119,5 @@ double calculate(int it, double calcSoFar, std::vector<std::string> &numbers, st
 		break;
 	}
 
-	return output;
+	numbers.push_back(output);
 }
